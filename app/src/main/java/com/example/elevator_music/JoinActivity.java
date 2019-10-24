@@ -2,6 +2,8 @@ package com.example.elevator_music;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -65,6 +67,7 @@ public class JoinActivity extends AppCompatActivity {
                 }
                 else {
                     Log.e(TAG, "passCheck Fail");
+                    Toast.makeText(JoinActivity.this, "비밀번호가 다릅니다", Toast.LENGTH_SHORT).show();
                     //Todo 비밀번호, 비밀번호 확인 다를시
                 }
             }

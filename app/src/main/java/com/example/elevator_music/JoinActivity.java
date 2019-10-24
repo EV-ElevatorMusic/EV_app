@@ -2,9 +2,6 @@ package com.example.elevator_music;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +22,7 @@ public class JoinActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     EditText et_id, et_password, et_pwdCheck;
     Button signUp;
-    String p ="[\\w\\~\\-\\.]+@[\\w\\~\\-]+(\\.[\\w\\~\\-]+)+";
+    String p ="[\\w~\\-.]+@[\\w~\\-]+(\\.[\\w~\\-]+)+";
     final String TAG = "signUp";
 
     @Override

@@ -46,7 +46,8 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 100;
-    TextView loginText;
+    Button loginText;
+    Button loginForget;
     EditText et_id, et_password;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     Button btn_login;
@@ -104,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         loginText = findViewById(R.id.loginText);
         loginButton.setReadPermissions("email");
         githubLogin=findViewById(R.id.loginGithub);
+        loginForget = findViewById(R.id.loginForget);
 
         githubLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,6 +245,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 } else{
                     Toast.makeText(LoginActivity.this, "빈칸이 있습니다", Toast.LENGTH_SHORT);
                 }
+            }
+        });
+
+        loginForget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, PasswordActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -18,8 +18,11 @@
 
     <EditText
         android:id="@+id/loginId"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="288dp"
+        android:layout_height="41dp"
+        android:background="@drawable/edit_login"
+        android:shadowDy="8dp"
+        android:shadowColor="#1b000000"
         app:layout_constraintTop_toBottomOf="@+id/loginImage"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -28,8 +31,11 @@
 
     <EditText
         android:id="@+id/loginPwd"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="288dp"
+        android:layout_height="41dp"
+        android:background="@drawable/edit_login"
+        android:shadowDy="8dp"
+        android:shadowColor="#1b000000"
         app:layout_constraintTop_toBottomOf="@+id/loginId"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

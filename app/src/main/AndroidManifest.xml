@@ -12,7 +12,14 @@
         android:theme="@style/AppTheme">
         <activity android:name=".SplashActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".PasswordActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>

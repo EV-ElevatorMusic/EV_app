@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -19,8 +18,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -40,7 +39,11 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+
+import javax.security.auth.login.LoginException;
 
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -51,8 +54,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     EditText et_id, et_password;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     Button btn_login;
-    ImageButton googleLogin, githubLogin;
-    LoginButton loginButton;
+    ImageButton googleLogin, githubLogin, fbLogin;
     private GoogleApiClient googleApiClient;
     CallbackManager callbackManager = CallbackManager.Factory.create();
 
@@ -97,15 +99,37 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        loginButton = findViewById(R.id.loginFb);
+        fbLogin = findViewById(R.id.loginFb);
         googleLogin = findViewById(R.id.loginGoogle);
         et_id = findViewById(R.id.loginId);
         et_password = findViewById(R.id.loginPwd);
         btn_login = findViewById(R.id.loginEnter);
         loginText = findViewById(R.id.loginText);
-        loginButton.setReadPermissions("email");
         githubLogin=findViewById(R.id.loginGithub);
         loginForget = findViewById(R.id.loginForget);
+        fbLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("email"));
+                LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Log.e("FbLogin", "onSuccess: success "+loginResult );
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.e("FbLogin", "onCancel: cancel" );
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.w("FbLogin", "onError: Error",error  );
+                    }
+                });
+            }
+        });
 
         githubLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,24 +215,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
         // Callback registration
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.e("FbLogin", "onSuccess: success "+loginResult );
-                handleFacebookAccessToken(loginResult.getAccessToken());
 
-            }
-
-            @Override
-            public void onCancel() {
-                Log.e("FbLogin", "onCancel: canceled" );
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                Log.e("FbLogin", "onError: Error" );
-            }
-        });
         loginText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

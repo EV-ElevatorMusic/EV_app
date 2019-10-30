@@ -28,9 +28,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_format_align_justify_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\wonwoo" />
+                            <entry key="outputName" value="ic_facebook" />
+                            <entry key="sourceFile" value="C:\Users\p\Desktop\icons\facebook.svg" />
                           </map>
                         </option>
                       </PersistentState>

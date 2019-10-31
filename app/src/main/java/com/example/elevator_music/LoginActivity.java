@@ -18,6 +18,9 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.LoggingBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
@@ -38,17 +41,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import javax.security.auth.login.LoginException;
-
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
+    AccessToken accessToken;
     private static final int RC_SIGN_IN = 100;
+    static String name;
     Button loginText;
     Button loginForget;
     EditText et_id, et_password;
@@ -57,10 +60,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     ImageButton googleLogin, githubLogin, fbLogin;
     private GoogleApiClient googleApiClient;
     CallbackManager callbackManager = CallbackManager.Factory.create();
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()){
@@ -68,7 +71,25 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 firebaseAuthWithGoogle(account);
             }
         }
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+    private void getFbUserName(AccessToken accessToken){
+        GraphRequest.newMeRequest(accessToken,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        Log.e("FbLogin", "LoginResult: "+ response.toString() );
+                        try{
+                            Log.e("getName", "Successed: ");
+                            name = object.getString("name");
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                });
+
+
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct){
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(),null);
@@ -90,6 +111,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         FacebookSdk.setApplicationId("551704228898505");
         FacebookSdk.sdkInitialize(getApplicationContext());
+        if (BuildConfig.DEBUG) {
+            FacebookSdk.setIsDebugEnabled(true);
+            FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+        }
         setContentView(R.layout.activity_login);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -110,12 +135,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         fbLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("email"));
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email"));
                 LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.e("FbLogin", "onSuccess: success "+loginResult );
+                        Log.e("FbLogin", "onSuccess: success "+loginResult.getAccessToken() );
                         handleFacebookAccessToken(loginResult.getAccessToken());
+                        accessToken = loginResult.getAccessToken();
+                        Log.e("Token", "onSuccess: "+accessToken );
+                        getFbUserName(accessToken);
                     }
 
                     @Override
@@ -191,7 +219,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                                             new OnSuccessListener<AuthResult>() {
                                                                 @Override
                                                                 public void onSuccess(AuthResult authResult) {
-                                                                    Log.e("linkwith", "onSuccess: " );
+                                                                    Log.e("linkWith", "onSuccess: " );
                                                                     // GitHub credential is linked to the current user.
                                                                     // IdP data available in
                                                                     // authResult.getAdditionalUserInfo().getProfile().
@@ -250,7 +278,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 }
                             });
                 } else{
-                    Toast.makeText(LoginActivity.this, "빈칸이 있습니다", Toast.LENGTH_SHORT);
+                    Toast.makeText(LoginActivity.this, "빈칸이 있습니다", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -268,7 +296,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-    private void handleFacebookAccessToken(AccessToken token) {
+    private void handleFacebookAccessToken(final AccessToken token) {
         Log.e("handleFacebook", "handleFacebookAccessToken:" + token );
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -280,9 +308,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("FbSignIn", "signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();
+
                         } else {
                             // If sign in fails, display a message to the user.
-
                             Log.w("FbSignIn", "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();

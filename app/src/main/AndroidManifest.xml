@@ -21,7 +21,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PasswordActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

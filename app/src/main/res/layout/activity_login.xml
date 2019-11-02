@@ -7,6 +7,15 @@
     tools:context=".LoginActivity">
 
     <ImageView
+        android:layout_width="54dp"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/logo_glow"/>
+
+    <ImageView
         android:id="@+id/loginImage"
         android:layout_width="54dp"
         android:layout_height="64dp"
@@ -15,15 +24,6 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="100dp"
         android:background="@drawable/main_logo"/>
-
-    <ImageView
-        android:layout_width="54dp"
-        android:layout_height="64dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/logo_glow"/>
 
     <LinearLayout
         android:id="@+id/emailLinear"
@@ -94,21 +94,8 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/loginForget"
-        android:layout_width="114dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/forget_password"
-        android:text="Forget Password?"
-        android:textColor="#f4a505"
-        android:textSize="9sp"
-        app:layout_constraintTop_toBottomOf="@+id/pwdLinear"
-        app:layout_constraintLeft_toLeftOf="@+id/emailLinear"
-        app:layout_constraintRight_toLeftOf="@+id/loginText" />
-
-    <Button
         android:id="@+id/loginText"
-        android:layout_width="66dp"
+        android:layout_width="97dp"
         android:layout_height="37dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/sign_up"
@@ -116,7 +103,8 @@
         android:textColor="#f4a505"
         android:textSize="9sp"
         app:layout_constraintTop_toBottomOf="@+id/pwdLinear"
-        app:layout_constraintLeft_toRightOf="@id/loginForget" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/loginEnter"/>
 
     <Button
         android:id="@+id/loginEnter"
@@ -127,7 +115,8 @@
         android:textSize="11sp"
         android:background="@drawable/login_gradient"
         app:layout_constraintTop_toBottomOf="@+id/pwdLinear"
-        app:layout_constraintRight_toRightOf="@+id/pwdLinear"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/loginText"
         android:layout_marginTop="20dp"/>
 
     <ImageView
@@ -135,7 +124,8 @@
         android:layout_height="37dp"
         android:background="@drawable/login_glow"
         app:layout_constraintTop_toBottomOf="@+id/pwdLinear"
-        app:layout_constraintRight_toRightOf="@+id/pwdLinear"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/loginText"
         android:layout_marginTop="20dp"/>
 
 

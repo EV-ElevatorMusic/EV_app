@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu"
-        android:icon="@drawable/ic_format_align_justify_black_24dp"
+        android:icon="@drawable/tool_menu"
         app:showAsAction="ifRoom"
         android:title="menu"/>
 

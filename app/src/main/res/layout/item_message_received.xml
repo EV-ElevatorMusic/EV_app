@@ -6,46 +6,21 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/chatProfile"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="8dp"
-        android:background="#747474"/>
-
-    <TextView
-        android:id="@+id/receiveName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="엄희성"
-        android:padding="8dp"
-        android:layout_marginTop="4dp"
-        android:textSize="12sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/chatProfile"/>
-
     <TextView
         android:id="@+id/receiveBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/chat_example"
-        android:padding="8dp"
-        android:layout_marginTop="4dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="11dp"
+        android:fontFamily="@font/nanumgothic"
         android:textColor="#fff"
-        app:layout_constraintTop_toBottomOf="@+id/receiveName"
-        app:layout_constraintLeft_toRightOf="@+id/chatProfile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:text="wonwoo is the best"/>
-
-    <TextView
-        android:id="@+id/receiveTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3:06"
-        android:textSize="10sp"
-        android:layout_marginLeft="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/receiveBody"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

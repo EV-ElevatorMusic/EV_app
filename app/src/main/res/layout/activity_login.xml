@@ -147,7 +147,7 @@
         app:layout_constraintTop_toBottomOf="@+id/loginEnter"
         app:layout_constraintLeft_toLeftOf="@+id/loginGithub"
         app:layout_constraintRight_toRightOf="@+id/loginGoogle"
-        />
+        android:elevation="10dp"/>
 
     <ImageButton
         android:id="@+id/loginGoogle"

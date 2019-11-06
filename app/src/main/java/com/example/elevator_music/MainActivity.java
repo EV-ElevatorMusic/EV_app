@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
 import kr.co.shineware.nlp.komoran.core.Komoran;
 import kr.co.shineware.nlp.komoran.model.KomoranResult;
@@ -23,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -49,8 +53,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
     EditText chatEdit;
+    Button chatSend;
+    String all_input, emotion;
+    RecyclerView.Adapter adapter;
+    RecyclerView rv;
     Komoran komoran=new Komoran(DEFAULT_MODEL.FULL);
     final List<String> they=new ArrayList<>();
+    ArrayList<ChatItem> chatItems = new ArrayList<>();
 
 
     @Override
@@ -58,13 +67,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         chatEdit = findViewById(R.id.chatEdit);
-
+        chatSend = findViewById(R.id.chatSend);
+        rv = findViewById(R.id.recyclerChat);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         NavigationView navigationView = findViewById(R.id.nav_view);
-
         navigationView.setNavigationItemSelectedListener(this);
+        adapter = new ChattingRecyclerAdapter(chatItems);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setAdapter(adapter);
+
+        set_they();
+
+        chatSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text=chatEdit.getText().toString();
+                all_input=all_input+text;
+                emotion=emotion_predict(all_input);
+                new Thread() {
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String text=chatEdit.getText().toString();
+                                chatItems.add(new ChatItem(0, text));
+                                adapter.notifyDataSetChanged();
+                                chatEdit.setText("");
+                                String output=post(text);
+                                chatItems.add(new ChatItem(1, output));
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }.start();
+            }
+        });
     }
 
     @Override
@@ -139,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         KomoranResult result = komoran.analyze(text);
-        List<Token> tokenList = new ArrayList<>();
+        List<Token> tokenList;
         try {
             tokenList = result.getTokenList();
         } catch (Exception e) {

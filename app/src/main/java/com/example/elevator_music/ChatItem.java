@@ -3,7 +3,23 @@ package com.example.elevator_music;
 import com.google.gson.JsonObject;
 
 public class ChatItem {
-    String id,lang,sessionId,timestamp;
+    int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    String id,lang,sessionId,timestamp, text;
+
+    public ChatItem(int position, String text) {
+        this.position = position;
+        this.text = text;
+    }
+
     JsonObject result,status;
     public String getId() {
         return id;

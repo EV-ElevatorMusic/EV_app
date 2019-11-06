@@ -10,67 +10,124 @@
     android:id="@+id/drawer_layout2"
     tools:context=".RankingActivity">
 
-    <include
-        layout="@layout/app_bar_main3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textSad"
+        <include
+            layout="@layout/app_bar_main3" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sad"
-            android:textSize="24sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/musicSad"/>
+            android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/musicSad"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/textSad"
-            app:layout_constraintBottom_toTopOf="@+id/textHappy"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="138dp"
+                android:id="@+id/rankTitle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:background="#f6f6f6">
 
-        <TextView
-            android:id="@+id/textHappy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Happy"
-            android:textSize="24sp"
-            app:layout_constraintTop_toBottomOf="@+id/musicSad"
-            app:layout_constraintBottom_toTopOf="@+id/musicHappy"/>
+                <ImageView
+                    android:id="@+id/rankLogo"
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
+                    android:src="@drawable/rank_logo"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginLeft="36dp"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/musicHappy"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/textHappy"
-            app:layout_constraintBottom_toTopOf="@+id/textMad"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/rankLogo"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="44dp">
 
-        <TextView
-            android:id="@+id/textMad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mad"
-            android:textSize="24sp"
-            app:layout_constraintTop_toBottomOf="@+id/musicHappy"
-            app:layout_constraintBottom_toTopOf="@+id/musicMad"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="랭킹"
+                        android:textSize="20dp"
+                        android:textColor="#646464"
+                        android:fontFamily="@font/nanumgothicbold"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/musicMad"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/textMad"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="각 카테고리별 자주 추천된 음악을 보여줍니다."
+                        android:textSize="10dp"
+                        android:textColor="#646464"
+                        android:fontFamily="@font/nanumgothiclight"
+                        android:layout_marginTop="6dp"/>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textSad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="슬픔"
+                android:textSize="20dp"
+                android:textColor="#646464"
+                android:fontFamily="@font/nanumgothicbold"
+                app:layout_constraintTop_toBottomOf="@+id/rankTitle"
+                app:layout_constraintBottom_toTopOf="@+id/musicSad"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/musicSad"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/textSad"
+                app:layout_constraintBottom_toTopOf="@+id/textHappy"/>
+
+            <TextView
+                android:id="@+id/textHappy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="기쁨"
+                android:textSize="20dp"
+                android:textColor="#646464"
+                android:fontFamily="@font/nanumgothicbold"
+                app:layout_constraintTop_toBottomOf="@+id/musicSad"
+                app:layout_constraintBottom_toTopOf="@+id/musicHappy"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/musicHappy"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/textHappy"
+                app:layout_constraintBottom_toTopOf="@+id/textMad"/>
+
+            <TextView
+                android:id="@+id/textMad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="분노"
+                android:textSize="20dp"
+                android:textColor="#646464"
+                android:fontFamily="@font/nanumgothicbold"
+                app:layout_constraintTop_toBottomOf="@+id/musicHappy"
+                app:layout_constraintBottom_toTopOf="@+id/musicMad"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/musicMad"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/textMad"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view2"

@@ -31,6 +31,16 @@
                 android:background="#f6f6f6">
 
                 <ImageView
+                    android:id="@+id/rankglow"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/join_glow"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginLeft="13dp"/>
+
+                <ImageView
                     android:id="@+id/rankLogo"
                     android:layout_width="54dp"
                     android:layout_height="54dp"
@@ -129,13 +139,13 @@
 
     </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
+    <!--<com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main3"
-        app:menu="@menu/activity_main3_drawer" />
+        app:menu="@menu/activity_main3_drawer" />-->
 
 </androidx.drawerlayout.widget.DrawerLayout>

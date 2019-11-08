@@ -1,6 +1,7 @@
 package com.example.elevator_music;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.facebook.share.internal.DeviceShareDialogFragment.TAG;
+
 public class RankingHappyAdapter extends RecyclerView.Adapter<RankingHappyAdapter.ItemViewHolder>{
     ArrayList<String> arrayList;
     Context context;
@@ -37,20 +40,25 @@ public class RankingHappyAdapter extends RecyclerView.Adapter<RankingHappyAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        String id = arrayList.get(position).substring(arrayList.get(position).lastIndexOf("/")+1);
-        String url ="https://img.youtube.com/vi/"+ id+ "/" + "default.jpg";  //유튜브 썸네일 불러오는 방법
-        Glide.with(context).load(url).asBitmap()
-                .format(DecodeFormat.PREFER_ARGB_8888)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.lv_rangking);
-        try {
-            Document doc = Jsoup.connect("https://youtu.be/"+id).get();
-            doc.select("ytd-video-primary-info-renderer").addClass("style-scope ytd-video-primary-info-renderer");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void onBindViewHolder(@NonNull final ItemViewHolder holder, final int position) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String id = arrayList.get(position).substring(arrayList.get(position).lastIndexOf("/")+1);
+                String url ="https://img.youtube.com/vi/"+ id+ "/" + "default.jpg";  //유튜브 썸네일 불러오는 방법
+                Glide.with(context).load(url).asBitmap()
+                        .format(DecodeFormat.PREFER_ARGB_8888)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(holder.lv_rangking);
+//                try {
+//                    Document doc = Jsoup.connect("https://youtu.be/"+id).get();
+//                    doc.select("ytd-video-primary-info-renderer").addClass("style-scope ytd-video-primary-info-renderer");
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+            }
+        });
 
     }
 

@@ -40,7 +40,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +47,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -233,7 +233,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             Log.w("gitLogin", "onFailure: ", e);
-                                            auth.getCurrentUser().startActivityForLinkWithProvider(LoginActivity.this, provider.build())
+                                            Objects.requireNonNull(auth.getCurrentUser()).startActivityForLinkWithProvider(LoginActivity.this, provider.build())
                                                     .addOnSuccessListener(
                                                             new OnSuccessListener<AuthResult>() {
                                                                 @Override

@@ -7,7 +7,8 @@
         android:id="@+id/musicAlbum"
         android:layout_width="99dp"
         android:layout_height="109dp"
-        android:src="@drawable/send_shape"/>
+        android:src="@drawable/send_shape"
+        android:scaleType="fitStart"/>
 
     <TextView
         android:id="@+id/musicTitle"

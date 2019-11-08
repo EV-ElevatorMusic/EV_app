@@ -40,6 +40,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     AccessToken accessToken;
     private static final int RC_SIGN_IN = 100;
-    static String name, userId;
+    static String name, userId, email;
     Button loginText;
     EditText et_id, et_password;
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -110,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             name = auth.getCurrentUser().getDisplayName();
                             Log.e("GoogleName", "onComplete: "+auth.getCurrentUser().getDisplayName() );
                             Toast.makeText(LoginActivity.this, "구글 로그인 인증 성공", Toast.LENGTH_SHORT).show();
+                            LoginIntent();
                         }
                     }
                 });
@@ -142,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         githubLogin=findViewById(R.id.loginGithub);
         userId = auth.getUid();
         if (userId!=null){
-
+            LoginIntent();
         }
         fbLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,11 +193,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                         @Override
                                         public void onSuccess(AuthResult authResult) {
                                             Log.e("gitLogin", "onSuccess: ");
+                                            name = authResult.getAdditionalUserInfo().getUsername();
+                                            userId = authResult.getUser().getUid();
                                             // User is signed in.
                                             // IdP data available in
                                             // authResult.getAdditionalUserInfo().getProfile().
                                             // The OAuth access token can also be retrieved:
                                             // authResult.getCredential().getAccessToken().
+                                            LoginIntent();
                                         }
                                     })
                             .addOnFailureListener(
@@ -220,6 +225,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                             // authResult.getAdditionalUserInfo().getProfile().
                                             // The OAuth access token can also be retrieved:
                                             // authResult.getCredential().getAccessToken().
+                                            LoginIntent();
                                         }
                                     })
                             .addOnFailureListener(
@@ -283,6 +289,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     if (task.isSuccessful()) {
                                         Log.e("Login", "onComplete: Success" );
                                         Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                                        LoginIntent();
                                     }
                                     else{
                                         Log.e("Login", "onComplete: Fail");
@@ -314,6 +321,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Log.d("FbSignIn", "signInWithCredential:success " + auth.getCurrentUser());
                             name = auth.getCurrentUser().getDisplayName();
                             userId = auth.getUid();
+                            LoginIntent();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("FbSignIn", "signInWithCredential:failure", task.getException());
@@ -324,6 +332,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         // ...
                     }
                 });
+    }
+    public void LoginIntent(){
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra("email", auth.getCurrentUser().getEmail());
+        intent.putExtra("name", name);
+        intent.putExtra("userId", userId);
+        Log.e("Login", "LoginIntent: wqeqweqwd" );
+        startActivity(intent);
     }
 
 }

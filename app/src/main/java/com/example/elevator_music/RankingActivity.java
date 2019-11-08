@@ -23,9 +23,9 @@ public class RankingActivity extends AppCompatActivity implements NavigationView
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        NavigationView navigationView = findViewById(R.id.nav_view2);
+        //NavigationView navigationView = findViewById(R.id.nav_view2);
 
-        navigationView.setNavigationItemSelectedListener(this);
+        //navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override

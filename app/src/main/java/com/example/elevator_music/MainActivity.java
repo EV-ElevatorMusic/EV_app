@@ -22,6 +22,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Komoran komoran=new Komoran(DEFAULT_MODEL.FULL);
     final List<String> they=new ArrayList<>();
     ArrayList<ChatItem> chatItems = new ArrayList<>();
+    String output;
 
 
     @Override
@@ -79,6 +82,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         rv.setAdapter(adapter);
 
         set_they();
+        chatEdit.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    //Enter키눌렀을떄 처리
+                    if (!chatEdit.getText().toString().equals("")) {
+                        String text = chatEdit.getText().toString();
+                        all_input = all_input + text;
+                        emotion = emotion_predict(all_input);
+                        new Thread() {
+                            public void run() {
+                                String text = chatEdit.getText().toString();
+                                output = post(text);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        String text = chatEdit.getText().toString();
+                                        chatItems.add(new ChatItem(0, text));
+                                        adapter.notifyDataSetChanged();
+                                        chatEdit.setText("");
+                                        chatItems.add(new ChatItem(1, output));
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
+                        }.start();
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+        });
 
         chatSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 emotion=emotion_predict(all_input);
                 new Thread() {
                     public void run() {
+                        String text=chatEdit.getText().toString();
+                        output=post(text);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -95,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 chatItems.add(new ChatItem(0, text));
                                 adapter.notifyDataSetChanged();
                                 chatEdit.setText("");
-                                String output=post(text);
                                 chatItems.add(new ChatItem(1, output));
                                 adapter.notifyDataSetChanged();
                             }
@@ -344,7 +381,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return "통신 실패";
             }
         } catch (Exception e) {
-            System.err.println(e.toString());
+            Log.w("오류", "post: ",e );
             return "오류";
 
         }

@@ -128,32 +128,32 @@
         app:layout_constraintLeft_toRightOf="@+id/loginText"
         android:layout_marginTop="20dp"/>
 
+    <ImageButton
+        android:id="@+id/loginGoogle"
+        android:background="@drawable/google"
+        android:layout_width="63dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="66dp"
+        app:layout_constraintTop_toBottomOf="@+id/loginEnter"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="118dp" />
+
+    <ImageButton
+        android:background="@drawable/fackbook"
+        android:id="@+id/loginFb"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="68dp"
+        app:layout_constraintTop_toBottomOf="@+id/loginEnter"
+        app:layout_constraintLeft_toRightOf="@id/loginGoogle"
+        app:layout_constraintRight_toLeftOf="@+id/loginGithub"/>
 
     <ImageButton
         android:id="@+id/loginGithub"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="68dp"
-        app:layout_constraintTop_toBottomOf="@+id/loginEnter"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="118dp"/>
-
-    <ImageButton
-        android:background="@drawable/ic_facebook"
-        android:id="@+id/loginFb"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="68dp"
-        app:layout_constraintTop_toBottomOf="@+id/loginEnter"
-        app:layout_constraintLeft_toLeftOf="@+id/loginGithub"
-        app:layout_constraintRight_toRightOf="@+id/loginGoogle"
-        android:elevation="10dp"/>
-
-    <ImageButton
-        android:id="@+id/loginGoogle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="68dp"
+        android:background="@drawable/git"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="70dp"
         app:layout_constraintTop_toBottomOf="@+id/loginEnter"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="118dp"/>

@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RankingHappyAdapter extends RecyclerView.Adapter<RankingHappyAdapter.ItemViewHolder>{
@@ -43,7 +44,13 @@ public class RankingHappyAdapter extends RecyclerView.Adapter<RankingHappyAdapte
                 .format(DecodeFormat.PREFER_ARGB_8888)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.lv_rangking);
-        //Document doc = Jsoup.connect("").get();
+        try {
+            Document doc = Jsoup.connect("https://youtu.be/"+id).get();
+            doc.select("ytd-video-primary-info-renderer").addClass("style-scope ytd-video-primary-info-renderer");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -57,8 +64,8 @@ public class RankingHappyAdapter extends RecyclerView.Adapter<RankingHappyAdapte
         TextView tv_title;
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            lv_rangking = itemView.findViewById(R.id.ranking_Iv);
-            tv_title = itemView.findViewById(R.id.rankTitle);
+            lv_rangking = itemView.findViewById(R.id.musicAlbum);
+            tv_title = itemView.findViewById(R.id.musicTitle);
         }
     }
 }
